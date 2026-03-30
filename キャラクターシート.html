@@ -3,15 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>スポットライト・ダイブ キャラクターシート</title>
+    <title>スポットライト・ダイブ オンラインキャラクターシート</title>
+    <!-- html2canvas ライブラリ (スクリーンショット用) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
         body {
             font-family: 'Segoe UI', 'Comic Neue', 'メイリオ', sans-serif;
-            margin: 0;
-            padding: 12px;
             background: linear-gradient(135deg, #fff9e6 0%, #fff0e0 100%);
+            padding: 12px;
             color: #333;
             min-height: 100vh;
         }
@@ -29,7 +33,7 @@
             padding: 8px 16px;
             font-weight: bold;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: 0.2s;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             font-size: 0.9rem;
         }
@@ -40,38 +44,44 @@
             max-width: 1200px;
             margin: 0 auto;
             background: white;
-            border-radius: 20px;
+            border-radius: 24px;
             box-shadow: 0 8px 30px rgba(0,0,0,0.1);
-            padding: 20px;
+            padding: 30px;
             transition: max-width 0.3s ease;
         }
         .sheet-container.smartphone-mode { max-width: 480px; }
         h1 {
             text-align: center;
-            font-size: 1.8rem;
-            margin: 0 0 15px;
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            border-bottom: 4px solid #ffaa00;
             padding-bottom: 10px;
-            border-bottom: 3px solid #ffaa00;
             color: #222;
         }
         .section {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             background: #fefefe;
-            border-radius: 16px;
-            padding: 16px;
+            border-radius: 20px;
+            padding: 20px;
             box-shadow: 0 1px 4px rgba(0,0,0,0.05);
         }
         .section-title {
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             font-weight: bold;
             color: #444;
-            border-left: 6px solid #ffaa00;
-            padding-left: 12px;
-            margin-bottom: 16px;
+            border-left: 8px solid #ffaa00;
+            padding-left: 15px;
+            margin-bottom: 20px;
             background: #f9f9f9;
         }
-        .two-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .input-group { margin-bottom: 16px; }
+        .two-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+        .input-group {
+            margin-bottom: 18px;
+        }
         .input-group label {
             display: block;
             font-weight: bold;
@@ -85,14 +95,13 @@
             border: 2px solid #e0e0e0;
             border-radius: 12px;
             font-size: 0.95rem;
-            transition: all 0.2s;
+            transition: 0.2s;
             background: white;
         }
-        textarea { resize: vertical; font-family: inherit; }
         input:focus, select:focus, textarea:focus {
-            outline: none;
             border-color: #ffaa00;
             box-shadow: 0 0 0 3px rgba(255,170,0,0.1);
+            outline: none;
         }
         .image-area {
             background: #faf7f0;
@@ -100,30 +109,46 @@
             border-radius: 16px;
             padding: 16px;
             text-align: center;
-            margin-bottom: 16px;
+            margin-bottom: 20px;
         }
-        .image-preview { max-width: 100%; max-height: 200px; margin: 10px auto; border-radius: 12px; display: none; object-fit: contain; }
+        .image-preview {
+            max-width: 200px;
+            max-height: 200px;
+            margin: 10px auto;
+            border-radius: 12px;
+            display: none;
+        }
         .image-preview.show { display: block; }
-        .chart-container { text-align: center; margin: 15px 0; }
-        canvas { max-width: 100%; height: auto; background: white; border-radius: 12px; }
+        .chart-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        canvas {
+            max-width: 100%;
+            height: auto;
+            background: white;
+            border-radius: 12px;
+        }
         .stat-inputs {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            gap: 10px;
+            gap: 12px;
             margin-top: 15px;
         }
-        .stat-inputs .input-group { margin-bottom: 0; }
-        .stat-inputs input { text-align: center; padding: 8px; }
-        .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
         .skill-category {
             background: #faf7f0;
-            border-radius: 12px;
-            padding: 12px;
+            border-radius: 14px;
+            padding: 14px;
         }
         .skill-category h4 {
-            margin: 0 0 10px;
+            margin-bottom: 12px;
             color: #ffaa00;
-            font-size: 1rem;
+            font-size: 1.1rem;
             border-bottom: 2px solid #ffaa00;
             padding-bottom: 4px;
         }
@@ -134,8 +159,8 @@
             margin-bottom: 8px;
             font-size: 0.85rem;
         }
-        .skill-row label { font-weight: normal; margin: 0; width: 65px; }
-        .skill-row input { width: 70px; text-align: center; padding: 6px; font-size: 0.85rem; }
+        .skill-row label { font-weight: normal; width: 65px; }
+        .skill-row input { width: 70px; text-align: center; padding: 6px; }
         .relationship-item {
             display: flex;
             gap: 8px;
@@ -162,8 +187,8 @@
         .status-badges {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 8px;
+            gap: 10px;
+            margin-top: 10px;
         }
         .status-badge {
             background: #f0f0f0;
@@ -171,13 +196,17 @@
             border-radius: 30px;
             font-size: 0.85rem;
             cursor: pointer;
-            transition: all 0.2s;
             user-select: none;
+            transition: 0.2s;
         }
-        .status-badge.active { background: #ffaa00; color: white; font-weight: bold; }
+        .status-badge.active {
+            background: #ffaa00;
+            color: white;
+            font-weight: bold;
+        }
         .copyright {
             text-align: center;
-            margin-top: 25px;
+            margin-top: 30px;
             padding-top: 15px;
             border-top: 1px solid #ddd;
             color: #888;
@@ -192,35 +221,10 @@
             margin-top: 15px;
         }
         .token-area.show { display: block; }
-        .token-area .section-title {
-            font-size: 1.1rem;
-            margin-bottom: 12px;
-            background: #fff0d0;
-        }
         @media (max-width: 768px) {
-            body { padding: 8px; }
-            .sheet-container { padding: 15px; }
-            .sheet-container.smartphone-mode { max-width: 100%; margin: 0; }
-            h1 { font-size: 1.5rem; }
-            .section { padding: 14px; margin-bottom: 15px; }
-            .section-title { font-size: 1.2rem; margin-bottom: 12px; }
-            .two-columns { grid-template-columns: 1fr; gap: 15px; }
-            input, select, textarea { font-size: 1rem; padding: 12px; }
-            .skills-grid { grid-template-columns: 1fr; gap: 12px; }
-            .skill-category { padding: 14px; }
-            .skill-row { font-size: 0.95rem; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
-            .skill-row label { width: auto; flex: 1; }
-            .skill-row input { width: auto; min-width: 70px; flex-shrink: 0; margin-left: 8px; font-size: 0.95rem; padding: 8px; }
-            .image-area { padding: 12px; }
-            .image-preview { max-height: 220px; }
-            .stat-inputs { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-            .stat-inputs input { font-size: 1rem; padding: 10px; }
-            .record-row { grid-template-columns: 1fr; gap: 12px; }
-            .toolbar { justify-content: center; }
-            .btn { padding: 8px 16px; font-size: 0.9rem; }
-            .relationship-item input { min-width: 140px; }
-            .relationship-item button { padding: 8px 14px; }
-            .token-area { padding: 12px; }
+            .two-columns, .skills-grid, .record-row { grid-template-columns: 1fr; }
+            .stat-inputs { grid-template-columns: repeat(2, 1fr); }
+            .sheet-container { padding: 20px; }
         }
     </style>
 </head>
@@ -235,6 +239,7 @@
     <h1>⚡ スポットライト・ダイブ ⚡<br><span style="font-size:0.7rem;">キャラクターシート</span></h1>
 
     <div class="two-columns">
+        <!-- 左カラム：基本情報 + トークン + プロフィール -->
         <div class="section">
             <div class="section-title">📋 基本情報</div>
             <div class="input-group">
@@ -269,22 +274,23 @@
             </div>
             <div class="input-group">
                 <label>固有スキル</label>
-                <input type="text" id="skill-name" readonly placeholder="ジョブ選択で表示">
+                <input type="text" id="skill-name" readonly placeholder="ジョブを選択すると表示されます">
             </div>
             <div class="input-group">
                 <label>スキル効果</label>
-                <textarea id="skill-effect" rows="2" readonly placeholder="ジョブ選択で効果表示"></textarea>
+                <textarea id="skill-effect" rows="2" readonly placeholder="ジョブを選択すると効果が表示されます"></textarea>
             </div>
 
+            <!-- トークン情報エリア (対象ジョブのみ表示) -->
             <div id="token-area" class="token-area">
-                <div class="section-title">🤖 トークン情報</div>
+                <div class="section-title" style="font-size:1rem;">🤖 トークン情報</div>
                 <div class="input-group">
                     <label>トークン名</label>
-                    <input type="text" id="token-name" placeholder="例：ネオドラゴン / バトルロボット">
+                    <input type="text" id="token-name" placeholder="例：青眼の白龍 / バトルロボット">
                 </div>
                 <div class="input-group">
                     <label>トークン必殺技名</label>
-                    <input type="text" id="token-special" placeholder="例：セイクリッド・バースト">
+                    <input type="text" id="token-special" placeholder="例：破壊の爆裂疾風弾">
                 </div>
                 <div class="input-group">
                     <label>トークン必殺技効果</label>
@@ -302,6 +308,7 @@
             </div>
         </div>
 
+        <!-- 右カラム：画像 + 戦闘記録 -->
         <div class="section">
             <div class="section-title">🖼️ キャラクター画像</div>
             <div class="image-area">
@@ -335,6 +342,7 @@
         </div>
     </div>
 
+    <!-- ステータス＋五角形チャート -->
     <div class="section">
         <div class="section-title">💪 ステータス</div>
         <div class="stat-inputs">
@@ -345,7 +353,7 @@
             <div class="input-group"><label>頭脳 (1-6)</label><input type="number" id="intelligence" min="1" max="6" value="3"></div>
         </div>
         <div class="chart-container">
-            <canvas id="radarChart" width="400" height="400" style="max-width: 100%; height: auto;"></canvas>
+            <canvas id="radarChart" width="400" height="400" style="max-width:100%; height:auto;"></canvas>
         </div>
         <div class="input-group">
             <label>💖 HP（自動計算）: <strong id="hpDisplay">?</strong></label>
@@ -355,17 +363,19 @@
         </div>
     </div>
 
+    <!-- 技能値一覧 (動的に生成) -->
     <div class="section">
         <div class="section-title">📚 技能値</div>
         <p><strong>残り技能ポイント: <span id="remainingPoints">0</span></strong></p>
         <div id="skills-grid" class="skills-grid"></div>
     </div>
 
+    <!-- 関係性 + 状態異常 -->
     <div class="two-columns">
         <div class="section">
             <div class="section-title">🤝 関係性（任意）</div>
             <div id="relationship-container"></div>
-            <button type="button" class="btn" id="add-relationship" style="margin-top: 8px; width: 100%;">＋ 関係性を追加</button>
+            <button type="button" class="btn" id="add-relationship" style="margin-top:10px; width:100%;">＋ 関係性を追加</button>
         </div>
         <div class="section">
             <div class="section-title">⚠️ 状態異常</div>
@@ -382,8 +392,9 @@
 </div>
 
 <script>
+    // ========== 1. 技能データ定義 ==========
     const skillCategories = {
-        "⚔️ 戦闘系": ["sword","shoot","martial","throw","evade","restrain"],
+        "⚔️ 戦闘系": ["sword","shoot","martial","throw","evade","defense","restrain"],
         "🔍 探索系": ["observe","search","stealth","survival","track","escape"],
         "⚙️ 技術系": ["repair","operate","drive","medical","steal","craft"],
         "📖 知識系": ["academics","mind","luckSkill","intuition","history","investigate"],
@@ -391,7 +402,7 @@
         "🏃 アクション系": ["acrobatics","run","provoke","jump","protect","climb"]
     };
     const skillNames = {
-        sword:"剣術", shoot:"射撃", martial:"格闘", throw:"投擲", evade:"回避", restrain:"拘束",
+        sword:"剣術", shoot:"射撃", martial:"格闘", throw:"投擲", evade:"回避", defense:"防御", restrain:"拘束",
         observe:"観察", search:"捜索", stealth:"隠密", survival:"生存", track:"追跡", escape:"逃避",
         repair:"修理", operate:"操作", drive:"運転", medical:"医療", steal:"奪取", craft:"制作",
         academics:"学問", mind:"読心", luckSkill:"幸運", intuition:"直感", history:"歴史", investigate:"調査",
@@ -400,6 +411,7 @@
     };
     const allSkillIds = Object.values(skillCategories).flat();
 
+    // ========== 2. ジョブデータ (得意/不得意 + 固有スキル情報) ==========
     const jobSkillMap = {
         "ヒーロー": ["martial","evade","protect"], "忍者":["stealth","throw","observe"],
         "アイドル":["perform","negotiate","luckSkill"], "剣士":["sword","acrobatics","run"],
@@ -419,64 +431,92 @@
         "ゴリラマスター":["operate","academics"]
     };
     const jobSkillInfoMap = {
-        "ヒーロー": {name:"ジャスティスハート（常時）", effect:"HP半分以下で全判定+1、与ダメージ+1"},
-        "忍者": {name:"刃の心（DP2）", effect:"次の判定自動成功＋被ダメージ-2（1ターン）"},
-        "アイドル": {name:"あなたのハートをロックオン！（常時）", effect:"交渉・パフォーマンス・信用+1。パフォーマンス好評でスポットライト+1"},
-        "剣士": {name:"二刀流（DP2）", effect:"攻撃2回。両方成功で獲得数+1"},
-        "発明家": {name:"実験を始めようか！（DP2）", effect:"制作・修理+2。失敗で自分に1ダメージ。1セッション2回"},
-        "アスリート": {name:"ド根性ッ！（常時）", effect:"HP0を1度だけHP1で耐える。即時自分のターンを得る（1回/セッション）"},
-        "怪盗": {name:"予告する（DP1）", effect:"奪取自動成功＋離脱"},
-        "スパイ": {name:"FAKE（DP2）", effect:"入手情報を利用して、このターン単体攻撃を受けない"},
-        "料理人": {name:"Bon appétit（DP2）", effect:"全員HP1d6回復＋料理説明で美味しそうならスポットライト+1"},
-        "カードバトラー": {name:"俺のターン！（DP3）", effect:"逆転のカードで判定やり直し。1セッション1回"},
-        "警察官": {name:"実力を行使（常時）", effect:"威圧・追跡+1。善行を語ってスポットライト+1"},
-        "ロボマイスター": {name:"バトル・スタート！（DP2）", effect:"ロボトークンのHPを全回復。1セッション1回"},
-        "学生": {name:"青い春（常時）", effect:"走破・学問+1。青春の思い出を語ってスポットライト+1"},
-        "探偵": {name:"『名探偵』の名にかけて（DP2）", effect:"味方判定+2。自分は【動揺】"},
-        "アヤカシ使い": {name:"ウォッチ！（DP2）", effect:"HP半分以下で次攻撃+2。出目6以上で次のラウンド終了まで【動揺】。1回/セッション"},
-        "ゴリラマスター": {name:"ゴリラゴリラゴリラ（常時）", effect:"ゴリラトークン攻撃+2、状態異常適用。語尾強制「ウホッ！」"}
+        "ヒーロー": { name: "ジャスティスハート（常時）", effect: "HP半分以下で全判定+1、与ダメージ+1" },
+        "忍者": { name: "刃の心（DP2）", effect: "次の判定自動成功、被ダメージ-2(1T)" },
+        "アイドル": { name: "あなたのハートをロックオン！（常時）", effect: "交渉・パフォーマンス・信用+1。パフォーマンス好評でスポットライト+1" },
+        "剣士": { name: "二刀流（DP2）", effect: "攻撃2回、両方成功で獲得数+1" },
+        "発明家": { name: "実験を始めようか！（DP2）", effect: "制作・修理+2、失敗で自傷1(1セッション2回)" },
+        "アスリート": { name: "ド根性ッ！（常時）", effect: "HP0を1度HP1で耐える＋即時自分のターン(1回/セッション)" },
+        "怪盗": { name: "予告する（DP1）", effect: "奪取自動成功＋離脱" },
+        "スパイ": { name: "FAKE（DP2）", effect: "このターン単体攻撃を受けない" },
+        "料理人": { name: "Bon appétit（DP2）", effect: "全員HP1d6回復＋料理説明で美味しそうならスポットライト+1" },
+        "カードバトラー": { name: "俺のターン！（DP3）", effect: "1d6→1-2：次攻撃自動成功＆ダメ2倍／3-4：判定やり直し+技能値+2／5-6：他者にスポットライト+2,DP+2,次判定+1" },
+        "警察官": { name: "実力を行使（常時）", effect: "威圧・追跡+1、善行語りでスポットライト+1" },
+        "ロボマイスター": { name: "バトル・スタート！（DP2）", effect: "ロボトークンHP全回復(1回/セッション)" },
+        "学生": { name: "青い春（常時）", effect: "走破・学問+1、青春語りでスポットライト+1" },
+        "探偵": { name: "『名探偵』の名にかけて（DP2）", effect: "味方判定+2、自分【動揺】" },
+        "アヤカシ使い": { name: "ウォッチ！（DP2）", effect: "HP半分以下で次攻撃+2、出目6以上で次ラウンド終了まで【動揺】(1回/セッション)" },
+        "ゴリラマスター": { name: "ゴリラゴリラゴリラ（常時）", effect: "ゴリラトークン攻撃+2、状態異常適用、語尾「ウホッ！」" }
     };
     const tokenJobs = ["カードバトラー", "ロボマイスター", "アヤカシ使い", "ゴリラマスター"];
 
+    // ========== 3. 共通関数 ==========
     let skillBaseValues = {};
     allSkillIds.forEach(id => { skillBaseValues[id] = 4; });
 
-    function getVal(id) { return Number(document.getElementById(id).value) || 0; }
-    function updateHP() { let hp = getVal('stamina') + getVal('strength') + 5; document.getElementById('hpDisplay').innerText = hp; }
+    function getVal(id) { return Number(document.getElementById(id)?.value) || 0; }
+
+    function updateHP() {
+        let hp = getVal('stamina') + getVal('strength') + 5;
+        document.getElementById('hpDisplay').innerText = hp;
+    }
     function updateTotalStatus() {
         let total = getVal('luck')+getVal('humanity')+getVal('stamina')+getVal('strength')+getVal('intelligence');
-        document.getElementById('totalStatus').innerText = total; return total;
+        document.getElementById('totalStatus').innerText = total;
+        return total;
     }
     function updateRemainingPoints() {
         let total = updateTotalStatus();
         let used = 0;
-        allSkillIds.forEach(id => { let val = getVal(id); if(val) used += (val - skillBaseValues[id]); });
+        allSkillIds.forEach(id => {
+            let val = getVal(id);
+            if (val) used += (val - skillBaseValues[id]);
+        });
         document.getElementById('remainingPoints').innerText = total - used;
     }
+
+    // ジョブ選択時の処理（スキル名・効果表示＋得意不得意技能の設定）
     function setJobSkills() {
         let job = document.getElementById('job').value;
         let info = jobSkillInfoMap[job];
         document.getElementById('skill-name').value = info ? info.name : "";
         document.getElementById('skill-effect').value = info ? info.effect : "";
+
+        // トークンエリア表示制御
         const tokenArea = document.getElementById('token-area');
         if (tokenJobs.includes(job)) tokenArea.classList.add('show');
         else tokenArea.classList.remove('show');
-        if(!job) return;
+
+        if (!job) return;
+        // 基本値をリセット
         allSkillIds.forEach(id => skillBaseValues[id] = 4);
+        // 不得意技能を3に
         (jobWeakSkillMap[job] || []).forEach(id => { if(skillBaseValues.hasOwnProperty(id)) skillBaseValues[id] = 3; });
+        // 得意技能を6に
         (jobSkillMap[job] || []).forEach(id => { if(skillBaseValues.hasOwnProperty(id)) skillBaseValues[id] = 6; });
-        allSkillIds.forEach(id => { let input = document.getElementById(id); if(input) input.value = skillBaseValues[id]; });
+        // 入力欄に反映
+        allSkillIds.forEach(id => {
+            let input = document.getElementById(id);
+            if (input) input.value = skillBaseValues[id];
+        });
         updateRemainingPoints();
     }
 
+    // ========== 4. 関係性動的追加 ==========
+    let relationshipCount = 0;
     function addRelationshipField(name="", desc="") {
         const container = document.getElementById('relationship-container');
-        const div = document.createElement('div'); div.className = 'relationship-item';
-        div.innerHTML = `<input type="text" placeholder="相手の名前" value="${name.replace(/"/g, '&quot;')}">
-                         <input type="text" placeholder="関係性" value="${desc.replace(/"/g, '&quot;')}">
-                         <button onclick="this.parentElement.remove()">削除</button>`;
+        const div = document.createElement('div');
+        div.className = 'relationship-item';
+        div.innerHTML = `
+            <input type="text" placeholder="相手の名前" value="${name.replace(/"/g, '&quot;')}">
+            <input type="text" placeholder="関係性" value="${desc.replace(/"/g, '&quot;')}">
+            <button onclick="this.parentElement.remove()">削除</button>
+        `;
         container.appendChild(div);
     }
+
+    // ========== 5. 状態異常 ==========
     const statusList = ["毒","睡魔","動揺","麻痺","魅了","空腹"];
     let activeStatus = new Set();
     function renderStatusBadges() {
@@ -486,98 +526,171 @@
             const badge = document.createElement('div');
             badge.className = 'status-badge' + (activeStatus.has(s) ? ' active' : '');
             badge.innerText = `【${s}】`;
-            badge.onclick = () => { if(activeStatus.has(s)) activeStatus.delete(s); else activeStatus.add(s); renderStatusBadges(); };
+            badge.onclick = () => {
+                if (activeStatus.has(s)) activeStatus.delete(s);
+                else activeStatus.add(s);
+                renderStatusBadges();
+            };
             container.appendChild(badge);
         });
     }
 
+    // ========== 6. 五角形チャート ==========
     function drawRadar() {
         const canvas = document.getElementById('radarChart');
-        if(!canvas) return;
+        if (!canvas) return;
         const ctx = canvas.getContext('2d');
         const w = canvas.width, h = canvas.height;
         ctx.clearRect(0,0,w,h);
         const cx = w/2, cy = h/2;
-        const r = Math.min(w,h)*0.35;
+        const radius = Math.min(w,h)*0.35;
         const angles = [-Math.PI/2, -Math.PI/2+2*Math.PI/5, -Math.PI/2+4*Math.PI/5, -Math.PI/2+6*Math.PI/5, -Math.PI/2+8*Math.PI/5];
         const labels = ["運","人間性","体力","力","頭脳"];
         const vals = [getVal('luck'), getVal('humanity'), getVal('stamina'), getVal('strength'), getVal('intelligence')];
-        for(let lvl=1; lvl<=6; lvl++) {
+        // グリッド
+        for (let lvl=1; lvl<=6; lvl++) {
             ctx.beginPath();
-            let rr = r * lvl / 6;
-            for(let i=0;i<5;i++) {
-                let x = cx + rr * Math.cos(angles[i]);
-                let y = cy + rr * Math.sin(angles[i]);
-                if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+            let r = radius * lvl / 6;
+            for (let i=0;i<5;i++) {
+                let x = cx + r * Math.cos(angles[i]);
+                let y = cy + r * Math.sin(angles[i]);
+                if (i===0) ctx.moveTo(x,y);
+                else ctx.lineTo(x,y);
             }
-            ctx.closePath(); ctx.strokeStyle="#ddd"; ctx.stroke();
+            ctx.closePath();
+            ctx.strokeStyle="#ddd";
+            ctx.stroke();
         }
-        for(let i=0;i<5;i++) {
-            let x = cx + r * Math.cos(angles[i]);
-            let y = cy + r * Math.sin(angles[i]);
-            ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(x,y); ctx.stroke();
-            ctx.fillStyle="#333"; ctx.font="bold 12px sans-serif";
-            let lx = cx + (r+15)*Math.cos(angles[i]);
-            let ly = cy + (r+15)*Math.sin(angles[i]);
+        // 軸線＋ラベル
+        for (let i=0;i<5;i++) {
+            let x = cx + radius * Math.cos(angles[i]);
+            let y = cy + radius * Math.sin(angles[i]);
+            ctx.beginPath();
+            ctx.moveTo(cx,cy);
+            ctx.lineTo(x,y);
+            ctx.stroke();
+            ctx.fillStyle="#333";
+            ctx.font="bold 12px sans-serif";
+            let lx = cx + (radius+15)*Math.cos(angles[i]);
+            let ly = cy + (radius+15)*Math.sin(angles[i]);
             ctx.fillText(labels[i], lx-10, ly-5);
         }
+        // データプロット
         ctx.beginPath();
-        for(let i=0;i<5;i++) {
-            let rr = r * Math.min(6,Math.max(0,vals[i])) / 6;
-            let x = cx + rr * Math.cos(angles[i]);
-            let y = cy + rr * Math.sin(angles[i]);
-            if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+        for (let i=0;i<5;i++) {
+            let r = radius * Math.min(6, Math.max(0, vals[i])) / 6;
+            let x = cx + r * Math.cos(angles[i]);
+            let y = cy + r * Math.sin(angles[i]);
+            if (i===0) ctx.moveTo(x,y);
+            else ctx.lineTo(x,y);
         }
-        ctx.closePath(); ctx.fillStyle="rgba(255,170,0,0.3)"; ctx.fill(); ctx.strokeStyle="#ffaa00"; ctx.lineWidth=2; ctx.stroke();
+        ctx.closePath();
+        ctx.fillStyle = "rgba(255,170,0,0.3)";
+        ctx.fill();
+        ctx.strokeStyle = "#ffaa00";
+        ctx.lineWidth = 2;
+        ctx.stroke();
     }
 
+    // ========== 7. 技能UI生成 ==========
     function buildSkillsUI() {
         const container = document.getElementById('skills-grid');
-        if(!container) return;
+        if (!container) return;
         container.innerHTML = '';
-        for(let [cat, ids] of Object.entries(skillCategories)) {
-            const div = document.createElement('div'); div.className = 'skill-category';
+        for (let [cat, ids] of Object.entries(skillCategories)) {
+            const div = document.createElement('div');
+            div.className = 'skill-category';
             div.innerHTML = `<h4>${cat}</h4>`;
             ids.forEach(id => {
-                const row = document.createElement('div'); row.className = 'skill-row';
+                const row = document.createElement('div');
+                row.className = 'skill-row';
                 row.innerHTML = `<label>${skillNames[id]}</label><input type="number" id="${id}" min="3" max="10" value="4">`;
                 div.appendChild(row);
             });
             container.appendChild(div);
         }
-        allSkillIds.forEach(id => { let el = document.getElementById(id); if(el) el.addEventListener('input', updateRemainingPoints); });
+        allSkillIds.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.addEventListener('input', updateRemainingPoints);
+        });
         updateRemainingPoints();
     }
 
+    // ========== 8. 画像アップロード ==========
     document.getElementById('image-upload')?.addEventListener('change', function(e) {
         const file = e.target.files[0];
-        if(file) {
+        if (file) {
             const reader = new FileReader();
-            reader.onload = ev => { const img = document.getElementById('character-image'); img.src = ev.target.result; img.classList.add('show'); };
+            reader.onload = ev => {
+                const img = document.getElementById('character-image');
+                img.src = ev.target.result;
+                img.classList.add('show');
+            };
             reader.readAsDataURL(file);
         }
     });
-    document.getElementById('screenshot-btn').addEventListener('click', function() {
+
+    // ========== 9. スクリーンショット ==========
+    document.getElementById('screenshot-btn')?.addEventListener('click', function() {
         html2canvas(document.getElementById('sheet-container'), { scale: 2, backgroundColor: '#ffffff', useCORS: true })
-            .then(canvas => { const link = document.createElement('a'); link.download = 'spotlight-dive-character.png'; link.href = canvas.toDataURL(); link.click(); })
+            .then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'spotlight-dive-character.png';
+                link.href = canvas.toDataURL();
+                link.click();
+            })
             .catch(() => alert('スクリーンショットに失敗しました'));
     });
+
+    // ========== 10. スマホ表示切替 ==========
     const container = document.getElementById('sheet-container');
-    const smartBtn = document.getElementById('smartphone-mode-btn'), pcBtn = document.getElementById('pc-mode-btn');
-    if(smartBtn && pcBtn && container) {
-        smartBtn.onclick = () => { container.classList.add('smartphone-mode'); smartBtn.style.display='none'; pcBtn.style.display='inline-block'; };
-        pcBtn.onclick = () => { container.classList.remove('smartphone-mode'); pcBtn.style.display='none'; smartBtn.style.display='inline-block'; };
+    const smartBtn = document.getElementById('smartphone-mode-btn');
+    const pcBtn = document.getElementById('pc-mode-btn');
+    if (smartBtn && pcBtn) {
+        smartBtn.onclick = () => {
+            container.classList.add('smartphone-mode');
+            smartBtn.style.display = 'none';
+            pcBtn.style.display = 'inline-block';
+        };
+        pcBtn.onclick = () => {
+            container.classList.remove('smartphone-mode');
+            pcBtn.style.display = 'none';
+            smartBtn.style.display = 'inline-block';
+        };
     }
 
+    // ========== 11. 初期化 ==========
     window.onload = () => {
-        buildSkillsUI(); renderStatusBadges();
-        addRelationshipField("PL2","幼なじみ"); addRelationshipField("PL3","ライバル"); addRelationshipField("PL4","師弟関係");
+        buildSkillsUI();
+        renderStatusBadges();
+        addRelationshipField("PL2","幼なじみ");
+        addRelationshipField("PL3","ライバル");
+        addRelationshipField("PL4","師弟関係");
         document.getElementById('add-relationship').onclick = () => addRelationshipField();
+
+        // ステータス変更イベント
         ['luck','humanity','stamina','strength','intelligence'].forEach(id => {
-            document.getElementById(id).addEventListener('input', () => { updateHP(); updateTotalStatus(); updateRemainingPoints(); drawRadar(); });
+            const el = document.getElementById(id);
+            if (el) {
+                el.addEventListener('input', () => {
+                    updateHP();
+                    updateTotalStatus();
+                    updateRemainingPoints();
+                    drawRadar();
+                });
+            }
         });
-        document.getElementById('job').addEventListener('change', () => { setJobSkills(); drawRadar(); });
-        updateHP(); updateTotalStatus(); drawRadar();
+        // ジョブ変更イベント
+        const jobSelect = document.getElementById('job');
+        if (jobSelect) jobSelect.addEventListener('change', () => {
+            setJobSkills();
+            drawRadar();
+        });
+        // 初期計算
+        updateHP();
+        updateTotalStatus();
+        drawRadar();
+        setJobSkills();  // 初期状態でもスキル表示（未選択なら空）
     };
 </script>
 </body>
