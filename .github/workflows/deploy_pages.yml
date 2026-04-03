@@ -1,0 +1,38 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Prepare public directory
+        run: |
+          set -e
+          rm -rf public || true
+          mkdir public
+          # Copy main files for static demo
+          cp -v deepseek_html_20260402_5ceeb0.html public/ || true
+          cp -v deepseek_html_smartphone_export.html public/ || true
+          cp -v README.md public/ || true
+          cp -v LICENSE public/ || true
+          if [ -d assets ]; then cp -r assets public/; fi
+          # avoid deploying workflow files
+          rm -rf public/.github || true
+
+      - name: Upload artifact for Pages
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: public
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v1

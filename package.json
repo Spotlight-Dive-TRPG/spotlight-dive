@@ -1,0 +1,14 @@
+{
+  "name": "spotlight-dive-export",
+  "version": "1.0.0",
+  "description": "Export Spotlight Dive character sheet HTML to PNG/PDF using Puppeteer",
+  "main": "export.js",
+  "scripts": {
+    "export": "node export.js",
+    "export:png": "node export.js --png",
+    "export:pdf": "node export.js --pdf"
+  },
+  "dependencies": {
+    "puppeteer": "^21.0.0"
+  }
+}

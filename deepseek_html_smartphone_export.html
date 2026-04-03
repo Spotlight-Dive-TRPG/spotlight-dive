@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>スマホ出力用 - スポットライト・ダイブ</title>
+</head>
+<body>
+<script>
+// スマホ表示を強制
+document.documentElement.classList.add('mobile-export');
+document.addEventListener('DOMContentLoaded', function(){
+  var el = document.getElementById('sheet-container');
+  if (!el) {
+    // 元ファイルを読み込む（同期的に）
+    fetch('deepseek_html_20260402_5ceeb0.html').then(r=>r.text()).then(html=>{
+      document.open(); document.write(html); document.close();
+      // 少し待ってからスマホクラスを付与
+      setTimeout(()=>{ document.getElementById('sheet-container')?.classList.add('smartphone-mode'); }, 100);
+    });
+  } else {
+    el.classList.add('smartphone-mode');
+  }
+});
+</script>
+</body>
+</html>
