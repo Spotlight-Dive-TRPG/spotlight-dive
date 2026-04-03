@@ -30,7 +30,8 @@ jobs:
           rm -rf public/.github || true
 
       - name: Upload artifact for Pages
-        uses: actions/upload-pages-artifact@v1
+        # Use v2 to avoid deprecated internal dependency on upload-artifact v3
+        uses: actions/upload-pages-artifact@v2
         with:
           path: public
 
