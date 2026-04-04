@@ -1,0 +1,38 @@
+name: Pages Build and Deploy (override)
+
+on:
+  push:
+    branches: [ main ]
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Prepare public directory
+        run: |
+          set -e
+          rm -rf public || true
+          mkdir public
+          cp -v deepseek_html_20260402_5ceeb0.html public/ || true
+          cp -v deepseek_html_smartphone_export.html public/ || true
+          cp -v README.md public/ || true
+          cp -v LICENSE public/ || true
+          if [ -d assets ]; then cp -r assets public/; fi
+          rm -rf public/.github || true
+
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
+          publish_branch: gh-pages
+          user_name: "github-actions[bot]"
+          user_email: "41898282+github-actions[bot]@users.noreply.github.com"
