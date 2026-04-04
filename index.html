@@ -30,6 +30,9 @@
             transition: max-width 0.3s ease;
         }
         .sheet-container.smartphone-mode { max-width: 480px; }
+        /* スマホ出力時に読みやすくする調整 */
+        html.mobile-export .sheet-container, .sheet-container.smartphone-mode { font-size: 1rem; padding: 18px; }
+        .toolbar .btn { font-size: 0.95rem; padding: 10px 14px; }
         h1 { text-align: center; font-size: 2.2rem; margin-bottom: 20px; border-bottom: 4px solid #ffaa00; padding-bottom: 10px; color: #222; }
         .section { margin-bottom: 25px; background: #fefefe; border-radius: 20px; padding: 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
         .section-title { font-size: 1.4rem; font-weight: bold; color: #444; border-left: 8px solid #ffaa00; padding-left: 15px; margin-bottom: 20px; background: #f9f9f9; }
@@ -70,6 +73,7 @@
 <body>
 <div class="toolbar">
     <button class="btn" id="screenshot-btn">📸 スクリーンショット</button>
+    <button class="btn" id="hires-btn">🖼️ 高解像度出力</button>
     <button class="btn btn-secondary" id="smartphone-mode-btn">📱 スマホ表示</button>
     <button class="btn btn-secondary" id="pc-mode-btn" style="display:none;">💻 PC表示に戻す</button>
 </div>
@@ -442,6 +446,21 @@
                 link.click();
             })
             .catch(() => alert('スクリーンショットに失敗しました'));
+    });
+
+    // 高解像度出力（スマホ用や印刷向け）
+    document.getElementById('hires-btn')?.addEventListener('click', function() {
+        let el = document.getElementById('sheet-container');
+        if (!el) return;
+        // scale を上げることで高解像度 PNG を生成
+        html2canvas(el, { scale: 3, backgroundColor: '#ffffff', useCORS: true })
+            .then(canvas => {
+                let link = document.createElement('a');
+                link.download = 'spotlight-dive-character@3x.png';
+                link.href = canvas.toDataURL();
+                link.click();
+            })
+            .catch(() => alert('高解像度出力に失敗しました'));
     });
 
     // スマホ表示切替
