@@ -3,11 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>スポットライト・ダイブ キャラクターシート</title>
+    <title>スポットライト・ダイブ オンラインキャラクターシート</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        /* 前回と同じスタイル（省略） */
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
         body {
             font-family: 'Segoe UI', 'Comic Neue', 'メイリオ', sans-serif;
             background: linear-gradient(135deg, #fff9e6 0%, #fff0e0 100%);
@@ -15,11 +18,29 @@
             color: #333;
             min-height: 100vh;
         }
-        .toolbar { display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; }
-        .btn { background: #ffaa00; border: none; border-radius: 30px; padding: 8px 16px; font-weight: bold; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.1); font-size: 0.9rem; }
+        .toolbar {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        .btn {
+            background: #ffaa00;
+            border: none;
+            border-radius: 30px;
+            padding: 8px 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            font-size: 0.9rem;
+        }
         .btn:hover { background: #ff8800; transform: translateY(-1px); }
         .btn-secondary { background: #6c757d; }
         .btn-secondary:hover { background: #5a6268; }
+        .btn-danger { background: #dc3545; color: white; }
+        .btn-danger:hover { background: #c82333; }
         .sheet-container {
             max-width: 1200px;
             margin: 0 auto;
@@ -30,39 +51,202 @@
             transition: max-width 0.3s ease;
         }
         .sheet-container.smartphone-mode { max-width: 480px; }
-        /* スマホ出力時に読みやすくする調整 */
-        html.mobile-export .sheet-container, .sheet-container.smartphone-mode { font-size: 1rem; padding: 18px; }
-        .toolbar .btn { font-size: 0.95rem; padding: 10px 14px; }
-        h1 { text-align: center; font-size: 2.2rem; margin-bottom: 20px; border-bottom: 4px solid #ffaa00; padding-bottom: 10px; color: #222; }
-        .section { margin-bottom: 25px; background: #fefefe; border-radius: 20px; padding: 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
-        .section-title { font-size: 1.4rem; font-weight: bold; color: #444; border-left: 8px solid #ffaa00; padding-left: 15px; margin-bottom: 20px; background: #f9f9f9; }
-        .two-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
-        .input-group { margin-bottom: 18px; }
-        .input-group label { display: block; font-weight: bold; margin-bottom: 6px; color: #555; font-size: 0.9rem; }
-        input, select, textarea { width: 100%; padding: 10px 12px; border: 2px solid #e0e0e0; border-radius: 12px; font-size: 0.95rem; transition: 0.2s; background: white; }
-        input:focus, select:focus, textarea:focus { border-color: #ffaa00; box-shadow: 0 0 0 3px rgba(255,170,0,0.1); outline: none; }
-        .image-area { background: #faf7f0; border: 2px dashed #ffaa00; border-radius: 16px; padding: 16px; text-align: center; margin-bottom: 20px; }
-        .image-preview { max-width: 200px; max-height: 200px; margin: 10px auto; border-radius: 12px; display: none; }
+        h1 {
+            text-align: center;
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            border-bottom: 4px solid #ffaa00;
+            padding-bottom: 10px;
+            color: #222;
+        }
+        .section {
+            margin-bottom: 25px;
+            background: #fefefe;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+        }
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #444;
+            border-left: 8px solid #ffaa00;
+            padding-left: 15px;
+            margin-bottom: 20px;
+            background: #f9f9f9;
+        }
+        .two-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+        .input-group {
+            margin-bottom: 18px;
+        }
+        .input-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 6px;
+            color: #555;
+            font-size: 0.9rem;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            transition: 0.2s;
+            background: white;
+        }
+        input:focus, select:focus, textarea:focus {
+            border-color: #ffaa00;
+            box-shadow: 0 0 0 3px rgba(255,170,0,0.1);
+            outline: none;
+        }
+        .image-area {
+            background: #faf7f0;
+            border: 2px dashed #ffaa00;
+            border-radius: 16px;
+            padding: 16px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .image-preview {
+            max-width: 200px;
+            max-height: 200px;
+            margin: 10px auto;
+            border-radius: 12px;
+            display: none;
+        }
         .image-preview.show { display: block; }
-        .chart-container { text-align: center; margin: 20px 0; }
-        canvas { max-width: 100%; height: auto; background: white; border-radius: 12px; }
-        .stat-inputs { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-top: 15px; }
-        .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-        .skill-category { background: #faf7f0; border-radius: 14px; padding: 14px; }
-        .skill-category h4 { margin-bottom: 12px; color: #ffaa00; font-size: 1.1rem; border-bottom: 2px solid #ffaa00; padding-bottom: 4px; }
-        .skill-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 0.85rem; }
-        .skill-row label { font-weight: normal; width: 65px; }
-        .skill-row input { width: 70px; text-align: center; padding: 6px; }
-        .relationship-item { display: flex; gap: 8px; margin-bottom: 10px; align-items: center; flex-wrap: wrap; }
+        .chart-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        canvas {
+            max-width: 100%;
+            height: auto;
+            background: white;
+            border-radius: 12px;
+        }
+        .stat-inputs {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+            margin-top: 15px;
+        }
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        .skill-category {
+            background: #faf7f0;
+            border-radius: 14px;
+            padding: 14px;
+        }
+        .skill-category h4 {
+            margin-bottom: 12px;
+            color: #ffaa00;
+            font-size: 1.1rem;
+            border-bottom: 2px solid #ffaa00;
+            padding-bottom: 4px;
+        }
+        .skill-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+        }
+        .skill-row label {
+            font-weight: normal;
+            width: 65px;
+        }
+        .skill-row input {
+            width: 70px;
+            text-align: center;
+            padding: 6px;
+        }
+        .relationship-item {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
         .relationship-item input { flex: 1; min-width: 120px; }
-        .relationship-item button { background: #ffaa00; border: none; border-radius: 20px; padding: 6px 12px; cursor: pointer; font-weight: bold; white-space: nowrap; }
-        .record-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 15px; }
-        .status-badges { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
-        .status-badge { background: #f0f0f0; padding: 6px 14px; border-radius: 30px; font-size: 0.85rem; cursor: pointer; user-select: none; transition: 0.2s; }
-        .status-badge.active { background: #ffaa00; color: white; font-weight: bold; }
-        .copyright { text-align: center; margin-top: 30px; padding-top: 15px; border-top: 1px solid #ddd; color: #888; font-size: 0.75rem; }
-        .token-area { display: none; background: #fff8e8; border: 2px solid #ffaa00; border-radius: 16px; padding: 16px; margin-top: 15px; }
+        .relationship-item button {
+            background: #ffaa00;
+            border: none;
+            border-radius: 20px;
+            padding: 6px 12px;
+            cursor: pointer;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+        .record-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        .status-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .status-badge {
+            background: #f0f0f0;
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            user-select: none;
+            transition: 0.2s;
+        }
+        .status-badge.active {
+            background: #ffaa00;
+            color: white;
+            font-weight: bold;
+        }
+        .copyright {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 15px;
+            border-top: 1px solid #ddd;
+            color: #888;
+            font-size: 0.75rem;
+        }
+        .token-area {
+            display: none;
+            background: #fff8e8;
+            border: 2px solid #ffaa00;
+            border-radius: 16px;
+            padding: 16px;
+            margin-top: 15px;
+        }
         .token-area.show { display: block; }
+        .toast-message {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+        .toast-message.show {
+            opacity: 1;
+        }
         @media (max-width: 768px) {
             .two-columns, .skills-grid, .record-row { grid-template-columns: 1fr; }
             .stat-inputs { grid-template-columns: repeat(2, 1fr); }
@@ -73,9 +257,10 @@
 <body>
 <div class="toolbar">
     <button class="btn" id="screenshot-btn">📸 スクリーンショット</button>
-    <button class="btn" id="hires-btn">🖼️ 高解像度出力</button>
     <button class="btn btn-secondary" id="smartphone-mode-btn">📱 スマホ表示</button>
     <button class="btn btn-secondary" id="pc-mode-btn" style="display:none;">💻 PC表示に戻す</button>
+    <button class="btn" id="ccfolia-output-btn">🎮 ココフォリア出力</button>
+    <button class="btn btn-danger" id="trouble-link-btn">⚠️ 上手く動作しない場合</button>
 </div>
 
 <div class="sheet-container" id="sheet-container">
@@ -87,7 +272,7 @@
             <div class="section-title">📋 基本情報</div>
             <div class="input-group">
                 <label>キャラクター名</label>
-　　　　　　　　　 <input type="text" id="char-name" 
+                <input type="text" id="char-name" placeholder="例：アリス・ブレイブ">
             </div>
             <div class="input-group">
                 <label>キャッチフレーズ</label>
@@ -125,8 +310,9 @@
             </div>
             <div id="token-area" class="token-area">
                 <div class="section-title" style="font-size:1rem;">🤖 トークン情報</div>
-                <div class="input-group"><label>トークン名</label><input type="text" id="token-name" placeholder="例：ネオ・アルティメット・ドラゴン"></div>
-                <div class="input-group"><label>トークン必殺技名</label><input type="text" id="token-special" placeholder="例：インフェルノ・シュート"></div>
+                <div class="input-group"><label>トークン名</label><input type="text" id="token-name" placeholder="例：青眼の白龍"></div>
+                <div class="input-group"><label>トークン必殺技名</label><input type="text" id="token-special" placeholder="例：破壊の爆裂疾風弾"></div>
+                <div class="input-group"><label>トークン必殺技効果</label><textarea id="token-effect" rows="2"></textarea></div>
                 <div class="input-group"><label>📌 メモ</label><textarea id="token-memo" rows="2"></textarea></div>
             </div>
             <div class="input-group">
@@ -194,6 +380,9 @@
     <div class="copyright">© 2026 スポットライト・ダイブ製作委員会</div>
 </div>
 
+<!-- トーストメッセージ用 -->
+<div id="toast-message" class="toast-message">コピーしました！</div>
+
 <script>
     // ========== データ定義 ==========
     const skillCategories = {
@@ -255,7 +444,16 @@
     let skillBaseValues = {};
     allSkillIds.forEach(id => { skillBaseValues[id] = 4; });
 
+    // ========== ユーティリティ ==========
     function getVal(id) { return Number(document.getElementById(id)?.value) || 0; }
+    function showToast(message) {
+        const toast = document.getElementById('toast-message');
+        toast.textContent = message || 'コピーしました！';
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2000);
+    }
+
+    // ========== 計算関連 ==========
     function updateHP() {
         let hp = getVal('stamina') + getVal('strength') + 5;
         let el = document.getElementById('hpDisplay');
@@ -278,6 +476,7 @@
         if (el) el.innerText = total - used;
     }
 
+    // ========== ジョブ関連 ==========
     function setJobSkills() {
         let job = document.getElementById('job')?.value;
         let info = jobSkillInfoMap[job];
@@ -292,13 +491,9 @@
             else tokenArea.classList.remove('show');
         }
         if (!job) return;
-        // 基本値リセット
         allSkillIds.forEach(id => skillBaseValues[id] = 4);
-        // 不得意
         (jobWeakSkillMap[job] || []).forEach(id => { if(skillBaseValues.hasOwnProperty(id)) skillBaseValues[id] = 3; });
-        // 得意
         (jobSkillMap[job] || []).forEach(id => { if(skillBaseValues.hasOwnProperty(id)) skillBaseValues[id] = 6; });
-        // UI反映
         allSkillIds.forEach(id => {
             let input = document.getElementById(id);
             if (input) input.value = skillBaseValues[id];
@@ -306,7 +501,48 @@
         updateRemainingPoints();
     }
 
-    // 技能UI生成
+    // ========== ココフォリア出力 ==========
+    function generateCcofoliaText() {
+        const skillOrder = [
+            // 戦闘系
+            "sword","shoot","martial","throw","evade","defense","restrain",
+            // 探索系
+            "observe","search","stealth","survival","track","escape",
+            // 技術系
+            "repair","operate","drive","medical","steal","craft",
+            // 知識系
+            "academics","mind","luckSkill","intuition","history","investigate",
+            // 社交系
+            "negotiate","trust","lie","intimidate","disguise","perform",
+            // アクション系
+            "acrobatics","run","provoke","jump","protect","climb"
+        ];
+        let lines = ["■技能(例)"];
+        for (let id of skillOrder) {
+            let val = getVal(id);
+            if (val > 0) {
+                lines.push(`2D6<=${val}　【${skillNames[id]}】`);
+            }
+        }
+        return lines.join("\n");
+    }
+
+    function copyToClipboard(text) {
+        navigator.clipboard.writeText(text).then(() => {
+            showToast("ココフォリア用テキストをコピーしました！");
+        }).catch(() => {
+            // フォールバック
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            showToast("ココフォリア用テキストをコピーしました！");
+        });
+    }
+
+    // ========== 技能UI生成 ==========
     function buildSkillsUI() {
         let container = document.getElementById('skills-grid');
         if (!container) return;
@@ -330,7 +566,7 @@
         updateRemainingPoints();
     }
 
-    // 関係性
+    // ========== 関係性 ==========
     function addRelationshipField(name="", desc="") {
         let container = document.getElementById('relationship-container');
         if (!container) return;
@@ -344,7 +580,7 @@
         container.appendChild(div);
     }
 
-    // 状態異常
+    // ========== 状態異常 ==========
     const statusList = ["毒","睡魔","動揺","麻痺","魅了","空腹"];
     let activeStatus = new Set();
     function renderStatusBadges() {
@@ -364,7 +600,7 @@
         });
     }
 
-    // 五角形チャート
+    // ========== 五角形チャート ==========
     function drawRadar() {
         let canvas = document.getElementById('radarChart');
         if (!canvas) return;
@@ -418,7 +654,7 @@
         ctx.stroke();
     }
 
-    // 画像アップロード
+    // ========== 画像アップロード ==========
     document.getElementById('image-upload')?.addEventListener('change', function(e) {
         let file = e.target.files[0];
         if (file) {
@@ -434,7 +670,7 @@
         }
     });
 
-    // スクリーンショット
+    // ========== スクリーンショット ==========
     document.getElementById('screenshot-btn')?.addEventListener('click', function() {
         let el = document.getElementById('sheet-container');
         if (!el) return;
@@ -448,22 +684,7 @@
             .catch(() => alert('スクリーンショットに失敗しました'));
     });
 
-    // 高解像度出力（スマホ用や印刷向け）
-    document.getElementById('hires-btn')?.addEventListener('click', function() {
-        let el = document.getElementById('sheet-container');
-        if (!el) return;
-        // scale を上げることで高解像度 PNG を生成
-        html2canvas(el, { scale: 3, backgroundColor: '#ffffff', useCORS: true })
-            .then(canvas => {
-                let link = document.createElement('a');
-                link.download = 'spotlight-dive-character@3x.png';
-                link.href = canvas.toDataURL();
-                link.click();
-            })
-            .catch(() => alert('高解像度出力に失敗しました'));
-    });
-
-    // スマホ表示切替
+    // ========== スマホ表示切替 ==========
     let container = document.getElementById('sheet-container');
     let smartBtn = document.getElementById('smartphone-mode-btn');
     let pcBtn = document.getElementById('pc-mode-btn');
@@ -480,7 +701,18 @@
         };
     }
 
-    // 初期化（DOMContentLoaded で確実に）
+    // ========== ココフォリア出力ボタン ==========
+    document.getElementById('ccfolia-output-btn')?.addEventListener('click', function() {
+        const text = generateCcofoliaText();
+        copyToClipboard(text);
+    });
+
+    // ========== トラブルシュートリンクボタン ==========
+    document.getElementById('trouble-link-btn')?.addEventListener('click', function() {
+        window.open('https://spotlight-dive-trpg.github.io/spotlight-dive/', '_blank');
+    });
+
+    // ========== 初期化 ==========
     document.addEventListener('DOMContentLoaded', function() {
         buildSkillsUI();
         renderStatusBadges();
@@ -490,7 +722,6 @@
         let addBtn = document.getElementById('add-relationship');
         if (addBtn) addBtn.onclick = () => addRelationshipField();
 
-        // ステータス変更
         ['luck','humanity','stamina','strength','intelligence'].forEach(id => {
             let el = document.getElementById(id);
             if (el) {
@@ -502,7 +733,6 @@
                 });
             }
         });
-        // ジョブ変更
         let jobSelect = document.getElementById('job');
         if (jobSelect) jobSelect.addEventListener('change', () => {
             setJobSkills();
@@ -511,7 +741,7 @@
         updateHP();
         updateTotalStatus();
         drawRadar();
-        setJobSkills(); // 初期表示（未選択の場合は空）
+        setJobSkills();
     });
 </script>
 </body>
